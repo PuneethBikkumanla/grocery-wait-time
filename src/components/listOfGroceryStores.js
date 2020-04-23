@@ -4,8 +4,17 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { Stitch, AnonymousCredential } from "mongodb-stitch-browser-sdk";
 
 class listOfGroceryStores extends Component {
+
+  constructor(){
+    super();
+    this.state = {
+      stitchClient: null,
+    };  
+  }
+  
   displayList = (stores) => {
     if (stores) {
       return (
@@ -26,8 +35,11 @@ class listOfGroceryStores extends Component {
                   fullWidth={true}
                   variant="outlined"
                   color="secondary"
-                  label="Please report the estimated wait time"
-                ></TextField>
+                  label="Please report the estimated wait time">
+                  <Button variant="contained" color="primary">
+                    Submit
+                  </Button>
+                </TextField>
               </CardContent>
             </Card>
           ))}
@@ -35,6 +47,17 @@ class listOfGroceryStores extends Component {
       );
     }
   };
+
+  handleUserInput(){
+
+  }
+
+  componentDidMount() {
+    this.stitchClient = Stitch.initializeDefaultAppClient("grocery-wait-time-zhxvi");
+    this.stitchClient.auth.loginWithCredential(new AnonymousCredential()).then((user) => {
+      console.log(user);
+    });
+  }
 
   render() {
     let cards = this.displayList(this.props.listOfStores);
