@@ -7,6 +7,10 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import StarIcon from "@material-ui/icons/Star";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+
+import Box from "@material-ui/core/Box";
 
 class listOfGroceryStores extends Component {
   displayList = (stores) => {
@@ -16,29 +20,39 @@ class listOfGroceryStores extends Component {
           {stores.map((store) => (
             <Card key={store.id} style={rootStyle} variant="outlined">
               <CardContent style={titleStyle}>
-                <Typography variant="h5">{store.name}</Typography>
-                <Typography variant="body2" component="p">
-                  Address: {store.vicinity}
+                <Typography variant="h5">
+                  <Box fontWeight="fontWeightBold" m={1}>
+                    {store.name}
+                  </Box>
                 </Typography>
-                <br></br>
                 <Typography variant="body2" component="p">
-                  Most recent estimated wait-times:
+                  <Box fontWeight="fontWeightBold" m={1}>
+                    Address: {store.vicinity}
+                  </Box>
                 </Typography>
-                {store.times && (
-                  <ListItemText variant="body2" component="p">
-                    {store.times[0]}
-                  </ListItemText>
+                <Typography variant="body2" component="p">
+                  <Box fontWeight="fontWeightRegular" m={1}>
+                    Most recent estimated wait-times:
+                  </Box>
+                </Typography>
+                {store.waitTimes && (
+                  <ListItemIcon>
+                    <StarIcon styles={{ fontSize: 10 }} color="primary" />
+                    <ListItemText variant="body2" component="p">
+                      {store.tstamps[0]} - {store.waitTimes[0]}
+                    </ListItemText>
+                  </ListItemIcon>
                 )}
-                {stores.times && (
+                {/* {store.times && (
                   <ListItemText variant="body2" component="p">
                     {store.times[1]}
                   </ListItemText>
                 )}
-                {stores.times && (
+                {store.times && (
                   <ListItemText variant="body2" component="p">
                     {store.times[2]}
                   </ListItemText>
-                )}
+                )} */}
 
                 <br></br>
                 <FormControl
@@ -54,12 +68,17 @@ class listOfGroceryStores extends Component {
                     id="simple-select-outlined"
                     value={this.waitTime}
                     onChange={(e) => {
-                      console.log(e.target.value);
-                      this.handleSelectedItem(store.id, e.target.value);
+                      let timeStamp = new Date();
+                      console.log(timeStamp.toTimeString());
+                      this.handleSelectedItem(
+                        store.id,
+                        e.target.value,
+                        timeStamp.toTimeString()
+                      );
                     }}
                     label="Please report the current estimated wait time"
                   >
-                    <MenuItem value={0}>
+                    <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
                     <MenuItem value={15 + " minutes"}>Fifteen Minutes</MenuItem>
@@ -81,9 +100,9 @@ class listOfGroceryStores extends Component {
     }
   };
 
-  handleSelectedItem(storeId, waitTimeEntered) {
+  handleSelectedItem(storeId, waitTimeEntered, timeStamp) {
     this.props.stitchClient
-      .callFunction("addOrUpdateStore", [storeId, waitTimeEntered])
+      .callFunction("addOrUpdateStore", [storeId, waitTimeEntered, timeStamp])
       .catch((error) => console.error("Error", error));
   }
 
