@@ -4,13 +4,11 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { Stitch, AnonymousCredential } from "mongodb-stitch-browser-sdk";
 
 class listOfGroceryStores extends Component {
   constructor() {
     super();
     this.state = {
-      stitchClient: null,
       userInput: null,
     };
   }
@@ -62,16 +60,9 @@ class listOfGroceryStores extends Component {
   };
 
   handleUserInput(storeId, waitTimeEntered) {
-    this.stitchClient
+    this.props.stitchClient
       .callFunction("addOrUpdateStore", [storeId, waitTimeEntered])
       .catch((error) => console.error("Error", error));
-  }
-
-  componentDidMount() {
-    this.stitchClient = Stitch.initializeDefaultAppClient(
-      "grocery-wait-time-zhxvi"
-    );
-    this.stitchClient.auth.loginWithCredential(new AnonymousCredential());
   }
 
   render() {

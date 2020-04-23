@@ -11,6 +11,9 @@ import Switch from "@material-ui/core/Switch";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
+//stitch
+import { Stitch, AnonymousCredential } from "mongodb-stitch-browser-sdk";
+
 //in-project
 import ListOfGroceryStoresComponent from "./listOfGroceryStores";
 
@@ -18,6 +21,7 @@ class LocationSearchInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      stitchClient: null,
       address: "",
       listOfStores: "",
       placeName: "",
@@ -56,7 +60,10 @@ class LocationSearchInput extends React.Component {
           document.createElement("div")
         );
         service.nearbySearch(request, (results, status, next_page_token) => {
-          this.setState({ listOfStores: results });
+          this.standardizeAndCombine(results).then((res) => {
+            this.setState({ listOfStores: res });
+          });          
+          // this.setState({ listOfStores: results });
         });
       })
       .catch((error) => console.error("Error", error));
@@ -76,9 +83,43 @@ class LocationSearchInput extends React.Component {
       document.createElement("div")
     );
     service.textSearch(request, (results, status) => {
-      this.setState({ listOfStores: results });
+      this.standardizeAndCombine(results).then((res) => {
+        this.setState({ listOfStores: res });
+      });
+      // this.setState({ listOfStores: results });
     });
   };
+
+  async getStitchRes(stores) {
+    let arr = [];
+    var i;
+    for (i in stores) {
+      arr.push(await this.state.stitchClient.callFunction("getStore", [stores[i].id]));
+    }
+    
+    return arr;
+  }
+
+  renameAddressKey(store) {
+    if (!store['vicinity']) {
+      store['vicinity'] = store['formatted_address'];
+      delete store['formatted_address'];
+    }
+    
+    return store;
+  }
+
+  combine(googleQuery, ind) {
+      return {...googleQuery, ...this.stitchQueries[ind]};
+  }
+  
+  async standardizeAndCombine(queryResults) {
+    let googleQueries = queryResults.map(this.renameAddressKey)
+    let stitchQueries = await this.getStitchRes(queryResults);
+    let res = googleQueries.map(this.combine, {stitchQueries})
+    console.log(res)
+    return res
+  }
 
   handleCloseClick = () => {
     this.setState({
@@ -185,6 +226,17 @@ class LocationSearchInput extends React.Component {
       )}
     </div>
   );
+
+  componentDidMount() {
+    let client = Stitch.initializeDefaultAppClient(
+      "grocery-wait-time-zhxvi"
+    );
+    client.auth.loginWithCredential(new AnonymousCredential()).then(
+      (user) => {
+        console.log(user)
+      });
+      this.setState({ stitchClient: client});
+  }
 
   render() {
     let searchBar = null;
