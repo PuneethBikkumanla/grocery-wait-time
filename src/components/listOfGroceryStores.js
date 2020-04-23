@@ -33,25 +33,12 @@ class listOfGroceryStores extends Component {
           ))}
         </ul>
       );
-    } else {
-      console.log("fatal error");
     }
   };
 
   render() {
     let cards = this.displayList(this.props.listOfStores);
-    return (
-      <div>
-        <div>{cards}</div>
-        {this.props.listOfStores.length > 0 && (
-          <div>
-            <Button variant="contained" style={requestStoreButtonStyle}>
-              Request Store
-            </Button>
-          </div>
-        )}
-      </div>
-    );
+    return <div>{cards}</div>;
   }
 }
 
@@ -65,12 +52,6 @@ var rootStyle = {
 
 var titleStyle = {
   fontSize: 14,
-};
-
-var requestStoreButtonStyle = {
-  backgroundColor: "lightblue",
-  display: "flex",
-  justifyContent: "center",
 };
 
 export default listOfGroceryStores;

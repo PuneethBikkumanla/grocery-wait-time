@@ -15,6 +15,9 @@ body,
   background-color: #fff3e6;
   border-radius: 10px;
 }
+._toggleButton {
+  margin: 40px auto 0;
+}
 
 ._search-input-container {
   position: relative;
