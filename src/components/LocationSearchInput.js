@@ -88,16 +88,9 @@ class LocationSearchInput extends React.Component {
     });
   };
 
-  async getStitchRes(stores) {
-    let arr = [];
-    var i;
-    for (i in stores) {
-      arr.push(
-        await this.state.stitchClient.callFunction("getStore", [stores[i].id])
-      );
-    }
-
-    return arr;
+  getStitchRes(stores) {
+    var arr = stores.map( (store) => { return store.id });
+    return this.state.stitchClient.callFunction("getStore", [arr]);
   }
 
   renameAddressKey(store) {
@@ -109,14 +102,30 @@ class LocationSearchInput extends React.Component {
     return store;
   }
 
-  combine(googleQuery, ind) {
-    return { ...googleQuery, ...this.stitchQueries[ind] };
+  combine(stitchDocs, googleQueries) {
+    let stitchMap = stitchDocs.reduce(function(result, doc) {
+      if (!result[doc.store_id]) {
+        result[doc.store_id] = doc;
+      }
+      return result;
+    }, {})
+
+    console.log(stitchMap);
+    let combinedList = [], i;
+    for (i in googleQueries) {
+      let key = googleQueries[i].id;
+      let toAdd = stitchMap[key] ? {...stitchMap[key], ...googleQueries[i]} : googleQueries[i];
+      combinedList.push(toAdd);
+    }
+    return combinedList;
   }
 
   async standardizeAndCombine(queryResults) {
     let googleQueries = queryResults.map(this.renameAddressKey);
-    let stitchQueries = await this.getStitchRes(queryResults);
-    let res = googleQueries.map(this.combine, { stitchQueries });
+    let stitchDocs = await this.getStitchRes(queryResults);
+    let res = this.combine(stitchDocs, googleQueries)
+    // let res = stitchDocs.map(this.combine, { googleQueries });
+    console.log(res)
     return res;
   }
 
