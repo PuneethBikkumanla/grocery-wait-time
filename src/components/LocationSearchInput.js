@@ -26,7 +26,12 @@ class LocationSearchInput extends React.Component {
   }
 
   handleToggleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.checked });
+    this.setState({
+      [event.target.name]: event.target.checked,
+      address: "",
+      listOfStores: "",
+      placeName: "",
+    });
   };
   handleChangeNearbySearch = (address) => {
     this.setState({ address });

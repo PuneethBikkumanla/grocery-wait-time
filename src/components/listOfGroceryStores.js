@@ -32,6 +32,7 @@ class listOfGroceryStores extends Component {
                 </Typography>
                 <br></br>
                 <TextField
+                  type="number"
                   fullWidth={true}
                   variant="outlined"
                   color="secondary"
@@ -41,7 +42,10 @@ class listOfGroceryStores extends Component {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={this.handleUserInput(store.id, this.state.userInput)}
+                  style={submitButtonStyle}
+                  onClick={() =>
+                    this.handleUserInput(store.id, this.state.userInput)
+                  }
                 >
                   Submit
                 </Button>
@@ -58,21 +62,16 @@ class listOfGroceryStores extends Component {
   };
 
   handleUserInput(storeId, waitTimeEntered) {
-    this.stitchClient.callFunction("addOrUpdateStore", [
-      storeId,
-      waitTimeEntered,
-    ]);
+    this.stitchClient
+      .callFunction("addOrUpdateStore", [storeId, waitTimeEntered])
+      .catch((error) => console.error("Error", error));
   }
 
   componentDidMount() {
     this.stitchClient = Stitch.initializeDefaultAppClient(
       "grocery-wait-time-zhxvi"
     );
-    this.stitchClient.auth
-      .loginWithCredential(new AnonymousCredential())
-      .then((user) => {
-        console.log(user);
-      });
+    this.stitchClient.auth.loginWithCredential(new AnonymousCredential());
   }
 
   render() {
@@ -91,6 +90,10 @@ var rootStyle = {
 
 var titleStyle = {
   fontSize: 14,
+};
+
+var submitButtonStyle = {
+  top: 5,
 };
 
 export default listOfGroceryStores;
