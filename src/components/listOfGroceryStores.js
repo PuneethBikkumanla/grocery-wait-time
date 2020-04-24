@@ -14,8 +14,14 @@ import Box from "@material-ui/core/Box";
 
 //inproject
 import PhoneModalComponent from "./phoneModal";
+import StitchClient from "./stitchClient";
 
 class listOfGroceryStores extends Component {
+  constructor(props) {
+    super(props);
+    this.stitchClient = StitchClient.getStitchClient();
+  }
+
   displayTimes(times) {
     if (!times) {
       return;
@@ -109,7 +115,7 @@ class listOfGroceryStores extends Component {
   };
 
   handleSelectedItem(storeId, waitTimeEntered, timeStamp, storeName) {
-    this.props.stitchClient
+    this.stitchClient
       .callFunction("addOrUpdateStore", [
         storeId,
         waitTimeEntered,

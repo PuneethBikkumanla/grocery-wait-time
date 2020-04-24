@@ -16,12 +16,13 @@ import { Stitch, AnonymousCredential } from "mongodb-stitch-browser-sdk";
 
 //in-project
 import ListOfGroceryStoresComponent from "./listOfGroceryStores";
+import StitchClient from "./stitchClient";
 
 class LocationSearchInput extends React.Component {
   constructor(props) {
     super(props);
+    this.stitchClient = StitchClient.getStitchClient();
     this.state = {
-      stitchClient: null,
       address: "",
       listOfStores: "",
       placeName: "",
@@ -92,7 +93,7 @@ class LocationSearchInput extends React.Component {
     var arr = stores.map((store) => {
       return store.id;
     });
-    return this.state.stitchClient.callFunction("getStore", [arr]);
+    return this.stitchClient.callFunction("getStore", [arr]);
   }
 
   renameAddressKey(store) {
@@ -236,12 +237,6 @@ class LocationSearchInput extends React.Component {
       )}
     </div>
   );
-
-  componentDidMount() {
-    let client = Stitch.initializeDefaultAppClient("grocery-wait-time-zhxvi");
-    client.auth.loginWithCredential(new AnonymousCredential());
-    this.setState({ stitchClient: client });
-  }
 
   render() {
     let searchBar = null;
