@@ -52,6 +52,7 @@ function ConfirmationDialogRaw(props) {
 
   const handleOk = () => {
     let timeStamp = new Date();
+    console.log(value);
     stitchClient.callFunction("addOrUpdateStore", [
       props.storeId,
       value,

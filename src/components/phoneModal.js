@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   paper: {
-    backgroundColor: "lightcoral",
-    padding: theme.spacing(2, 4, 3),
+    backgroundColor: "#19181a",
+    padding: theme.spacing(4, 4, 4),
   },
   textFieldStyle: {
     backgroundColor: "#fff3e6",
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   modalSubmitButton: {
-    top: 10,
+    top: 20,
     textTransform: "none",
     backgroundColor: "#01aae4",
     color: "white",
@@ -45,13 +45,18 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 12,
     paddingBottom: 12,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
   },
 
   modalHeader: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  modalText: {
+    paddingBottom: 16,
+    color: "white",
   },
 }));
 
@@ -111,8 +116,12 @@ export default function PhoneModal(props) {
         <Fade in={open}>
           <div className={classes.paper}>
             <Typography variant="body2" className={classes.modalHeader}>
-              <Box fontWeight="fontWeightBold" m={1}>
-                Wait time text updates
+              <Box
+                className={classes.modalText}
+                fontWeight="fontWeightBold"
+                m={1}
+              >
+                Send me text updates
               </Box>
             </Typography>
             <TextField

@@ -270,7 +270,7 @@ class LocationSearchInput extends React.Component {
                 onChange={this.handleToggleChange}
                 name="checked"
                 inputProps={{ "aria-label": "primary checkbox" }}
-                color="primary"
+                color="secondary"
               />
             }
             label="Search with store name?"

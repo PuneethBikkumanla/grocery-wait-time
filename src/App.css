@@ -2,11 +2,8 @@ body,
 #root,
 .page-wrapper {
   height: 100%;
-  background-color: lightcoral;
-}
-
-._map-maker-icon {
-  color: #fd6c6c;
+  background-color: #19181a;
+  color: white;
 }
 
 ._search-bar-container {
@@ -35,6 +32,10 @@ body,
   border: 0;
 }
 
+.MuiFormControlLabel-label {
+  color: "white";
+}
+
 ._autocomplete-container {
   border-bottom: honeydew;
   border-left: honeydew;
@@ -42,6 +43,7 @@ body,
   border-top: 1px solid lightblue;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 0 0 2px 2px;
+  color: black;
 }
 
 ._clear-button,
