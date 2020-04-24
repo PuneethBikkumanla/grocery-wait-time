@@ -1,4 +1,8 @@
+//react
 import React, { Component } from "react";
+import Timestamp from "react-timestamp";
+
+//material
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -6,15 +10,31 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import Timestamp from "react-timestamp";
-
 import Box from "@material-ui/core/Box";
 
+//inproject
+import PhoneModalComponent from "./phoneModal";
+
 class listOfGroceryStores extends Component {
-  constructor() {
-    super();
-    this.reportedString = "Reported ";
+  displayTimes(times) {
+    if (!times) {
+      return;
+    }
+    let reportString = "Reported ";
+    return (
+      <ul>
+        {times.map(function (timeObj) {
+          return (
+            <li>
+              {timeObj.wait_time} - {reportString}
+              <Timestamp relative date={timeObj.t_stamp} />
+            </li>
+          );
+        })}
+      </ul>
+    );
   }
+
   displayList = (stores) => {
     if (stores) {
       return (
@@ -27,40 +47,17 @@ class listOfGroceryStores extends Component {
                     {store.name}
                   </Box>
                 </Typography>
-                <Typography variant="body2" component="p">
+                <Typography variant="body2">
                   <Box fontWeight="fontWeightBold" m={1}>
                     Address: {store.vicinity}
                   </Box>
                 </Typography>
-                <Typography variant="body2" component="p">
+                <Typography variant="body2">
                   <Box fontWeight="fontWeightRegular" m={1}>
                     Most recent estimated wait-times:
                   </Box>
                 </Typography>
-                {store.times && (
-                  <ul>
-                    <li>
-                      {store.times[0].wait_time} - {this.reportedString}
-                      <Timestamp relative date={store.times[0].t_stamp} />
-                    </li>
-                  </ul>
-                )}
-                {store.times && store.times[1].wait_time && (
-                  <ul>
-                    <li>
-                      {store.times[1].wait_time} - {this.reportedString}
-                      <Timestamp relative date={store.times[1].t_stamp} />
-                    </li>
-                  </ul>
-                )}
-                {store.times && store.times[2].wait_time && (
-                  <ul>
-                    <li>
-                      {store.times[2].wait_time} - {this.reportedString}
-                      <Timestamp relative date={store.times[2].t_stamp} />
-                    </li>
-                  </ul>
-                )}
+                {this.displayTimes(store.times)}
                 <br></br>
                 <FormControl
                   variant="outlined"
@@ -78,25 +75,31 @@ class listOfGroceryStores extends Component {
                       this.handleSelectedItem(
                         store.id,
                         e.target.value,
-                        timeStamp
+                        timeStamp,
+                        store.name
                       );
                     }}
                     label="Please report the current estimated wait time"
                   >
-                    <MenuItem value="">
+                    <MenuItem value={0 + " minutes"}>
                       <em>None</em>
                     </MenuItem>
+                    <MenuItem value={5 + " minutes"}>Five Minutes</MenuItem>
+                    <MenuItem value={10 + " minutes"}>Ten Minutes</MenuItem>
                     <MenuItem value={15 + " minutes"}>Fifteen Minutes</MenuItem>
                     <MenuItem value={30 + " minutes"}>Thirty Minutes</MenuItem>
                     <MenuItem value={45 + " minutes"}>
                       Forty-five Minutes
                     </MenuItem>
-                    <MenuItem value={1 + " hour"}>1 hour</MenuItem>
-                    <MenuItem value={1.5 + " hours"}>1.5 hour</MenuItem>
-                    <MenuItem value={2 + " hours"}>2 hours</MenuItem>
-                    <MenuItem value={3 + " hours"}>3 hours</MenuItem>
+                    <MenuItem value={1 + " hour"}>1 Hour</MenuItem>
+                    <MenuItem value={75 + " minutes"}>
+                      Seventy-five Minutes
+                    </MenuItem>
+                    <MenuItem value={90 + " minutes"}>Ninety Minutes</MenuItem>
+                    <MenuItem value={2 + " hours"}>2 Hours</MenuItem>
                   </Select>
                 </FormControl>
+                <PhoneModalComponent></PhoneModalComponent>
               </CardContent>
             </Card>
           ))}
@@ -105,9 +108,14 @@ class listOfGroceryStores extends Component {
     }
   };
 
-  handleSelectedItem(storeId, waitTimeEntered, timeStamp) {
+  handleSelectedItem(storeId, waitTimeEntered, timeStamp, storeName) {
     this.props.stitchClient
-      .callFunction("addOrUpdateStore", [storeId, waitTimeEntered, timeStamp])
+      .callFunction("addOrUpdateStore", [
+        storeId,
+        waitTimeEntered,
+        timeStamp,
+        storeName,
+      ])
       .catch((error) => console.error("Error", error));
   }
 

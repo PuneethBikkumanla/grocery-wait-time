@@ -289,7 +289,9 @@ class LocationSearchInput extends React.Component {
           This applicaiton lets one check and report the wait times of grocery
           stores nearby.
         </div> */}
-        <ListOfGroceryStoresComponent {...this.state} />
+        <ListOfGroceryStoresComponent
+          {...this.state}
+        ></ListOfGroceryStoresComponent>
       </div>
     );
   }
