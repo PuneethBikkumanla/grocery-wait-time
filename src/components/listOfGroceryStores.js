@@ -6,13 +6,15 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import StarIcon from "@material-ui/icons/Star";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Timestamp from "react-timestamp";
 
 import Box from "@material-ui/core/Box";
 
 class listOfGroceryStores extends Component {
+  constructor() {
+    super();
+    this.reportedString = "Reported ";
+  }
   displayList = (stores) => {
     if (stores) {
       return (
@@ -35,25 +37,30 @@ class listOfGroceryStores extends Component {
                     Most recent estimated wait-times:
                   </Box>
                 </Typography>
-                {store.waitTimes && (
-                  <ListItemIcon>
-                    <StarIcon styles={{ fontSize: 10 }} color="primary" />
-                    <ListItemText variant="body2" component="p">
-                      {store.tstamps[0]} - {store.waitTimes[0]}
-                    </ListItemText>
-                  </ListItemIcon>
-                )}
-                {/* {store.times && (
-                  <ListItemText variant="body2" component="p">
-                    {store.times[1]}
-                  </ListItemText>
-                )}
                 {store.times && (
-                  <ListItemText variant="body2" component="p">
-                    {store.times[2]}
-                  </ListItemText>
-                )} */}
-
+                  <ul>
+                    <li>
+                      {store.times[0].wait_time} - {this.reportedString}
+                      <Timestamp relative date={store.times[0].t_stamp} />
+                    </li>
+                  </ul>
+                )}
+                {store.times && store.times[1].wait_time && (
+                  <ul>
+                    <li>
+                      {store.times[1].wait_time} - {this.reportedString}
+                      <Timestamp relative date={store.times[1].t_stamp} />
+                    </li>
+                  </ul>
+                )}
+                {store.times && store.times[2].wait_time && (
+                  <ul>
+                    <li>
+                      {store.times[2].wait_time} - {this.reportedString}
+                      <Timestamp relative date={store.times[2].t_stamp} />
+                    </li>
+                  </ul>
+                )}
                 <br></br>
                 <FormControl
                   variant="outlined"
@@ -66,14 +73,12 @@ class listOfGroceryStores extends Component {
                   <Select
                     labelId="simple-select-outlined-label"
                     id="simple-select-outlined"
-                    value={this.waitTime}
                     onChange={(e) => {
                       let timeStamp = new Date();
-                      console.log(timeStamp.toTimeString());
                       this.handleSelectedItem(
                         store.id,
                         e.target.value,
-                        timeStamp.toTimeString()
+                        timeStamp
                       );
                     }}
                     label="Please report the current estimated wait time"
