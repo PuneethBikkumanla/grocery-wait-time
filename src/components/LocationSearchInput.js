@@ -11,9 +11,6 @@ import Switch from "@material-ui/core/Switch";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-//stitch
-import { Stitch, AnonymousCredential } from "mongodb-stitch-browser-sdk";
-
 //in-project
 import ListOfGroceryStoresComponent from "./listOfGroceryStores";
 import StitchClient from "./stitchClient";

@@ -9,6 +9,8 @@ import Typography from "@material-ui/core/Typography";
 import Send from "@material-ui/icons/Send";
 import Box from "@material-ui/core/Box";
 
+import StitchClient from "./stitchClient";
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
@@ -27,11 +29,23 @@ const useStyles = makeStyles((theme) => ({
   modalButton: {
     top: 10,
     textTransform: "none",
+    backgroundColor: "#01aae4",
+    color: "white",
+    borderRadius: 10,
   },
 
   modalSubmitButton: {
     top: 10,
     textTransform: "none",
+    backgroundColor: "#01aae4",
+    color: "white",
+    borderRadius: 10,
+    paddingLeft: 60,
+    paddingRight: 70,
+    paddingTop: 12,
+    paddingBottom: 12,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   modalHeader: {
@@ -41,9 +55,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PhoneModal() {
+export default function PhoneModal(props) {
+  const stitchClient = StitchClient.getStitchClient();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [number, storeNumber] = React.useState("");
+  const [waitTime, storeWaitTime] = React.useState("");
+
+  const handleNumberChange = (e) => {
+    storeNumber(e.target.value);
+  };
+
+  const handleWaitTimeChangeChange = (e) => {
+    storeWaitTime(e.target.value);
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -53,13 +78,20 @@ export default function PhoneModal() {
     setOpen(false);
   };
 
+  const handleSubmit = () => {
+    stitchClient.callFunction("insertUserNumber", [
+      number,
+      props.storeId,
+      waitTime,
+    ]);
+  };
+
   return (
     <div>
       <Button
         className={classes.modalButton}
         onClick={handleOpen}
         variant="contained"
-        color="primary"
       >
         Would you like text updates?
       </Button>
@@ -92,6 +124,8 @@ export default function PhoneModal() {
                 shrink: true,
               }}
               variant="outlined"
+              onChange={handleNumberChange}
+              value={number}
             />
             <br></br>
             <br></br>
@@ -100,18 +134,20 @@ export default function PhoneModal() {
               id="outlined-number"
               type="number"
               fullWidth={true}
-              placeholder="Enter wait time (mins)"
+              placeholder="Enter wait time"
               InputLabelProps={{
                 shrink: true,
               }}
               variant="outlined"
+              onChange={handleWaitTimeChangeChange}
+              value={waitTime}
             />
             <br></br>
             <Button
               className={classes.modalSubmitButton}
               variant="contained"
-              color="primary"
               endIcon={<Send />}
+              onClick={handleSubmit}
             >
               Submit
             </Button>
