@@ -84,6 +84,7 @@ export default function PhoneModal(props) {
       props.storeId,
       waitTime,
     ]);
+    handleClose();
   };
 
   return (
