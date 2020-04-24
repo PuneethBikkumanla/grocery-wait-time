@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     backgroundColor: "#19181a",
     padding: theme.spacing(4, 4, 4),
+    paddingBottom: 64,
   },
   textFieldStyle: {
     backgroundColor: "#fff3e6",
