@@ -13,7 +13,6 @@ import PhoneModalComponent from "./phoneModal";
 import WaitTimeSelectionComponent from "./waitTimeSelection";
 
 class listOfGroceryStores extends Component {
-
   displayTimes(times) {
     if (!times) {
       return;
@@ -61,7 +60,10 @@ class listOfGroceryStores extends Component {
                   storeName={store.name}
                   stitchClient={this.props.stitchClient}
                 ></WaitTimeSelectionComponent>
-                <PhoneModalComponent storeId={store.id} stitchClient={this.props.stitchClient}></PhoneModalComponent>
+                <PhoneModalComponent
+                  storeId={store.id}
+                  stitchClient={this.props.stitchClient}
+                ></PhoneModalComponent>
               </CardContent>
             </Card>
           ))}

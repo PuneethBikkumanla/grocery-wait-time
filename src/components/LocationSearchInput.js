@@ -85,7 +85,7 @@ class LocationSearchInput extends React.Component {
     });
   };
 
-   getStitchRes(stores) {
+  getStitchRes(stores) {
     var arr = stores.map((store) => {
       return store.id;
     });
@@ -284,7 +284,9 @@ class LocationSearchInput extends React.Component {
           {...this.state}
           stitchClient={this.props.stitchClient}
         ></ListOfGroceryStoresComponent>
-        <SuggestionsComponent stitchClient={this.props.stitchClient}></SuggestionsComponent>
+        <SuggestionsComponent
+          stitchClient={this.props.stitchClient}
+        ></SuggestionsComponent>
       </div>
     );
   }

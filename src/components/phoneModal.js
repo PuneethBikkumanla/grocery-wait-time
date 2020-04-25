@@ -111,16 +111,10 @@ export default function PhoneModal(props) {
 
   const handleSubmit = () => {
     var phoneNumberToPassToBackend = validatePhoneNumber(number);
-<<<<<<< Updated upstream
     var waitTimeToValidate = validateWaitTime();
 
     if (phoneNumberToPassToBackend && waitTimeToValidate) {
-      stitchClient.callFunction("insertUserNumber", [
-=======
-    if (phoneNumberToPassToBackend) {
-      console.log("valid number");
       props.stitchClient.callFunction("insertUserNumber", [
->>>>>>> Stashed changes
         number,
         props.storeId,
         waitTime,
