@@ -7,7 +7,7 @@ export class StitchClient extends React.Component {
   static getStitchClient() {
     if (!this.client) {
       this.client = Stitch.initializeDefaultAppClient(
-        process.env.REACT_APP_MONGO_DB_API_KEY
+        process.env.REACT_APP_MONGO_DB_APP_ID
       );
       this.client.auth.loginWithCredential(new AnonymousCredential());
     }

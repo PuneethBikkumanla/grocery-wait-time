@@ -72,6 +72,7 @@ export default function PhoneModal(props) {
   const [number, storeNumber] = React.useState("");
   const [waitTime, storeWaitTime] = React.useState("");
   const [invalidPhoneNumber, setInvalidPhoneNum] = React.useState(false);
+  const [invalidWaitTime, setInvalidWaitTime] = React.useState(false);
 
   const handleNumberChange = (e) => {
     storeNumber(e.target.value);
@@ -90,15 +91,22 @@ export default function PhoneModal(props) {
     storeNumber("");
     storeWaitTime("");
     setInvalidPhoneNum(false);
+    setInvalidWaitTime(false);
   };
 
   const validatePhoneNumber = (phNum) => {
     const isValidPhoneNumber = /^\d{10}$/;
-    if (
-      phNum.match(isValidPhoneNumber) &&
-      isValidPhoneNumber > 0 &&
-      waitTime >= 0
-    ) {
+
+    if (phNum.match(isValidPhoneNumber) && phNum > 0) {
+      setInvalidPhoneNum(false);
+      return true;
+    }
+    return false;
+  };
+
+  const validateWaitTime = () => {
+    if (waitTime >= 0) {
+      setInvalidWaitTime(false);
       return true;
     }
     return false;
@@ -106,8 +114,9 @@ export default function PhoneModal(props) {
 
   const handleSubmit = () => {
     var phoneNumberToPassToBackend = validatePhoneNumber(number);
-    if (phoneNumberToPassToBackend) {
-      console.log("valid number");
+    var waitTimeToValidate = validateWaitTime();
+
+    if (phoneNumberToPassToBackend && waitTimeToValidate) {
       stitchClient.callFunction("insertUserNumber", [
         number,
         props.storeId,
@@ -115,7 +124,17 @@ export default function PhoneModal(props) {
       ]);
       handleClose();
     } else {
-      setInvalidPhoneNum(true);
+      if (
+        phoneNumberToPassToBackend === false &&
+        waitTimeToValidate === false
+      ) {
+        setInvalidPhoneNum(true);
+        setInvalidWaitTime(true);
+      } else if (waitTimeToValidate === false) {
+        setInvalidWaitTime(true);
+      } else if (phoneNumberToPassToBackend === false) {
+        setInvalidPhoneNum(true);
+      }
     }
   };
 
@@ -142,6 +161,17 @@ export default function PhoneModal(props) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
+            {invalidWaitTime && (
+              <Typography variant="body2" className={classes.modalHeader}>
+                <Box
+                  className={classes.warningText}
+                  fontWeight="fontWeightBold"
+                  m={1}
+                >
+                  Invalid wait time
+                </Box>
+              </Typography>
+            )}
             {invalidPhoneNumber && (
               <Typography variant="body2" className={classes.modalHeader}>
                 <Box
@@ -180,7 +210,7 @@ export default function PhoneModal(props) {
             <TextField
               className={classes.textFieldStyle}
               id="outlined-number"
-              type="number"
+              type="tel"
               fullWidth={true}
               placeholder="Notify me when the waittime is"
               InputLabelProps={{
