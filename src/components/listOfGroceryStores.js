@@ -10,14 +10,9 @@ import Box from "@material-ui/core/Box";
 
 //inproject
 import PhoneModalComponent from "./phoneModal";
-import StitchClient from "./stitchClient";
 import WaitTimeSelectionComponent from "./waitTimeSelection";
 
 class listOfGroceryStores extends Component {
-  constructor(props) {
-    super(props);
-    this.stitchClient = StitchClient.getStitchClient();
-  }
 
   displayTimes(times) {
     if (!times) {
@@ -64,8 +59,9 @@ class listOfGroceryStores extends Component {
                 <WaitTimeSelectionComponent
                   storeId={store.id}
                   storeName={store.name}
+                  stitchClient={this.props.stitchClient}
                 ></WaitTimeSelectionComponent>
-                <PhoneModalComponent storeId={store.id}></PhoneModalComponent>
+                <PhoneModalComponent storeId={store.id} stitchClient={this.props.stitchClient}></PhoneModalComponent>
               </CardContent>
             </Card>
           ))}

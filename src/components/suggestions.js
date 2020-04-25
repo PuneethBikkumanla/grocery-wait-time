@@ -9,8 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import Send from "@material-ui/icons/Send";
 import Box from "@material-ui/core/Box";
 
-import StitchClient from "./stitchClient";
-
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
@@ -65,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PhoneModal(props) {
-  const stitchClient = StitchClient.getStitchClient();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [suggestedFeedback, setSuggestedFeedbackValue] = React.useState("");
@@ -84,7 +81,7 @@ export default function PhoneModal(props) {
 
   const handleClick = () => {
     handleClose();
-    stitchClient.callFunction("addSuggestion", [suggestedFeedback]);
+    props.stitchClient.callFunction("addSuggestion", [suggestedFeedback]);
     handleClose();
   };
 

@@ -13,7 +13,6 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import StitchClient from "./stitchClient";
 
 const options = [
   "None",
@@ -32,7 +31,6 @@ function ConfirmationDialogRaw(props) {
   const { onClose, value: valueProp, open, ...other } = props;
   const [value, setValue] = React.useState(valueProp);
   const radioGroupRef = React.useRef(null);
-  const stitchClient = StitchClient.getStitchClient();
 
   React.useEffect(() => {
     if (!open) {
@@ -53,7 +51,7 @@ function ConfirmationDialogRaw(props) {
   const handleOk = () => {
     let timeStamp = new Date();
     console.log(value);
-    stitchClient.callFunction("addOrUpdateStore", [
+    props.stitchClient.callFunction("addOrUpdateStore", [
       props.storeId,
       value,
       timeStamp,

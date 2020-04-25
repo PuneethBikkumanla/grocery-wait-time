@@ -13,13 +13,11 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 //in-project
 import ListOfGroceryStoresComponent from "./listOfGroceryStores";
-import StitchClient from "./stitchClient";
 import SuggestionsComponent from "./suggestions";
 
 class LocationSearchInput extends React.Component {
   constructor(props) {
     super(props);
-    this.stitchClient = StitchClient.getStitchClient();
     this.state = {
       address: "",
       listOfStores: "",
@@ -87,11 +85,11 @@ class LocationSearchInput extends React.Component {
     });
   };
 
-  getStitchRes(stores) {
+   getStitchRes(stores) {
     var arr = stores.map((store) => {
       return store.id;
     });
-    return this.stitchClient.callFunction("getStore", [arr]);
+    return this.props.stitchClient.callFunction("getStore", [arr]);
   }
 
   renameAddressKey(store) {
@@ -284,8 +282,9 @@ class LocationSearchInput extends React.Component {
         </div> */}
         <ListOfGroceryStoresComponent
           {...this.state}
+          stitchClient={this.props.stitchClient}
         ></ListOfGroceryStoresComponent>
-        <SuggestionsComponent></SuggestionsComponent>
+        <SuggestionsComponent stitchClient={this.props.stitchClient}></SuggestionsComponent>
       </div>
     );
   }
