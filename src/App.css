@@ -6,6 +6,12 @@ body,
   color: white;
 }
 
+._webpageLoading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 ._search-bar-container {
   width: 70%;
   margin: 40px auto 0;

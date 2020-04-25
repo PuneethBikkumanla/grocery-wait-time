@@ -1,30 +1,157 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
+import Dialog from "@material-ui/core/Dialog";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import Send from "@material-ui/icons/Send";
-import Box from "@material-ui/core/Box";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import DescriptionIcon from "@material-ui/icons/Description";
+
+function ConfirmationDialogRaw(props) {
+  const { onClose, value: valueProp, open, ...other } = props;
+  const [value, setValue] = React.useState(valueProp);
+  const radioGroupRef = React.useRef(null);
+  const [suggestedFeedback, setSuggestedFeedbackValue] = React.useState("");
+  const classes = useStyles();
+
+  React.useEffect(() => {
+    if (!open) {
+      setValue(valueProp);
+    }
+  }, [valueProp, open]);
+
+  const handleEntering = () => {
+    if (radioGroupRef.current != null) {
+      radioGroupRef.current.focus();
+    }
+  };
+
+  const handleCancel = () => {
+    onClose();
+    setSuggestedFeedbackValue("");
+  };
+
+  const handleOk = () => {
+    props.stitchClient.callFunction("addSuggestion", [suggestedFeedback]);
+    onClose();
+    setSuggestedFeedbackValue("");
+  };
+
+  const handleSuggestedFeedbackOnChange = (e) => {
+    setSuggestedFeedbackValue(e.target.value);
+  };
+
+  return (
+    <Dialog
+      disableBackdropClick
+      disableEscapeKeyDown
+      maxWidth="xs"
+      onEntering={handleEntering}
+      aria-labelledby="confirmation-dialog-title"
+      open={open}
+      {...other}
+    >
+      <DialogTitle id="confirmation-dialog-title">App Feedback!</DialogTitle>
+      <TextField
+        className={classes.textFieldStyle}
+        id="outlined-number"
+        placeholder="Please write your feedback here..."
+        InputLabelProps={{
+          shrink: true,
+        }}
+        variant="outlined"
+        onChange={handleSuggestedFeedbackOnChange}
+        value={suggestedFeedback}
+        multiline={true}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <DescriptionIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+
+      <DialogActions>
+        <Button autoFocus onClick={handleCancel} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleOk} color="primary">
+          Submit
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+ConfirmationDialogRaw.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  value: PropTypes.string.isRequired,
+};
+
+export default function ConfirmationDialog(props) {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState();
+
+  const handleClickListItem = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (newValue) => {
+    setOpen(false);
+
+    if (newValue) {
+      setValue(newValue);
+    }
+  };
+
+  return (
+    <div>
+      <div>
+        <Button
+          className={classes.modalButton}
+          onClick={handleClickListItem}
+          variant="contained"
+        >
+          App feedback!
+        </Button>
+      </div>
+      <div className={classes.root}>
+        <ConfirmationDialogRaw
+          stitchClient={props.stitchClient}
+          classes={{
+            paper: classes.paper,
+          }}
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          value={value}
+        />
+      </div>
+    </div>
+  );
+}
 
 const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+  root: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: "#fff3e6",
   },
   paper: {
-    backgroundColor: "#19181a",
-    padding: theme.spacing(4, 4, 4),
-    paddingBottom: 64,
+    width: "80%",
+    maxHeight: 435,
   },
   textFieldStyle: {
-    backgroundColor: "#fff3e6",
-    borderRadius: 10,
+    marginTop: 10,
+    marginRight: 20,
+    marginBottom: 10,
+    marginLeft: 20,
   },
-
   modalButton: {
     top: 10,
     display: "flex",
@@ -35,112 +162,4 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10,
     marginBottom: 50,
   },
-
-  modalSubmitButton: {
-    top: 20,
-    textTransform: "none",
-    backgroundColor: "#01aae4",
-    color: "white",
-    borderRadius: 10,
-    paddingTop: 12,
-    paddingBottom: 12,
-    paddingLeft: 100,
-    paddingRight: 100,
-    display: "flex",
-    margin: "auto",
-  },
-
-  modalHeader: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  modalText: {
-    paddingBottom: 16,
-    color: "white",
-  },
 }));
-
-export default function PhoneModal(props) {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [suggestedFeedback, setSuggestedFeedbackValue] = React.useState("");
-
-  const handleWaitTimeChangeChange = (e) => {
-    setSuggestedFeedbackValue(e.target.value);
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setSuggestedFeedbackValue("");
-  };
-
-  const handleClick = () => {
-    props.stitchClient.callFunction("addSuggestion", [suggestedFeedback]);
-    handleClose();
-  };
-
-  return (
-    <div>
-      <Button
-        className={classes.modalButton}
-        onClick={handleOpen}
-        variant="contained"
-      >
-        App feedback!
-      </Button>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper}>
-            <Typography variant="body2" className={classes.modalHeader}>
-              <Box
-                className={classes.modalText}
-                fontWeight="fontWeightBold"
-                m={1}
-              >
-                Tell us how to improve out app!
-              </Box>
-            </Typography>
-            <TextField
-              className={classes.textFieldStyle}
-              id="outlined-number"
-              fullWidth={true}
-              placeholder="Feedback"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              variant="outlined"
-              onChange={handleWaitTimeChangeChange}
-              value={suggestedFeedback}
-              multiline={true}
-            />
-            <Button
-              className={classes.modalSubmitButton}
-              variant="contained"
-              endIcon={<Send />}
-              onClick={handleClick}
-            >
-              Submit
-            </Button>
-          </div>
-        </Fade>
-      </Modal>
-    </div>
-  );
-}

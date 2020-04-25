@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Stitch, UserApiKeyCredential } from "mongodb-stitch-browser-sdk";
 import "./App.css";
+import Loader from "react-loader-spinner";
+
 import LocationSearchInputComponent from "./components/LocationSearchInput";
 
 function App() {
@@ -32,7 +34,16 @@ function App() {
       </LocationSearchInputComponent>
     );
   } else {
-    return <div>loading</div>;
+    return (
+      <Loader
+        className="_webpageLoading"
+        type="ThreeDots"
+        color="#00BFFF"
+        height={100}
+        width={100}
+        timeout={3000} //3 secs
+      />
+    );
   }
 }
 
