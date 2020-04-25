@@ -42,6 +42,14 @@ class LocationSearchInput extends React.Component {
     this.setState({ placeName });
   };
 
+  handleCloseClick = () => {
+    this.setState({
+      address: "",
+      listOfStores: "",
+      placeName: "",
+    });
+  };
+
   handleSelectByNearbySearch = (address) => {
     geocodeByAddress(address)
       .then((results) => getLatLng(results[0]))
@@ -127,14 +135,6 @@ class LocationSearchInput extends React.Component {
     let res = this.combine(stitchDocs, googleQueries);
     return res;
   }
-
-  handleCloseClick = () => {
-    this.setState({
-      address: "",
-      listOfStores: "",
-      placeName: "",
-    });
-  };
 
   renderFuncWithAddress = ({
     getInputProps,

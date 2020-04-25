@@ -111,18 +111,6 @@ ConfirmationDialogRaw.propTypes = {
   value: PropTypes.string.isRequired,
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: "#fff3e6",
-  },
-  paper: {
-    width: "80%",
-    maxHeight: 435,
-  },
-}));
-
 export default function ConfirmationDialog(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -172,3 +160,15 @@ export default function ConfirmationDialog(props) {
     </div>
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: "#fff3e6",
+  },
+  paper: {
+    width: "80%",
+    maxHeight: 435,
+  },
+}));

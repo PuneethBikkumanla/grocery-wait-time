@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -10,7 +11,6 @@ import Typography from "@material-ui/core/Typography";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import PhoneIcon from "@material-ui/icons/Phone";
 import TimerIcon from "@material-ui/icons/Timer";
-import Box from "@material-ui/core/Box";
 
 function ConfirmationDialogRaw(props) {
   const { onClose, value: valueProp, open, ...other } = props;
