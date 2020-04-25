@@ -57,7 +57,7 @@ function ConfirmationDialogRaw(props) {
       props.storeId,
       value,
       timeStamp,
-      props.storeId,
+      props.storeName,
     ]);
     onClose(value);
   };

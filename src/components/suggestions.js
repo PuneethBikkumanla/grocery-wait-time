@@ -29,10 +29,13 @@ const useStyles = makeStyles((theme) => ({
 
   modalButton: {
     top: 10,
+    display: "flex",
+    margin: "auto",
     textTransform: "none",
     backgroundColor: "#01aae4",
     color: "white",
     borderRadius: 10,
+    marginBottom: 50,
   },
 
   modalSubmitButton: {
@@ -41,12 +44,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#01aae4",
     color: "white",
     borderRadius: 10,
-    paddingLeft: 60,
-    paddingRight: 70,
     paddingTop: 12,
     paddingBottom: 12,
-    alignItems: "center",
-    justifyContent: "space-evenly",
+    paddingLeft: 100,
+    paddingRight: 100,
+    display: "flex",
+    margin: "auto",
   },
 
   modalHeader: {
@@ -59,26 +62,16 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 16,
     color: "white",
   },
-
-  warningText: {
-    color: "red",
-  },
 }));
 
 export default function PhoneModal(props) {
   const stitchClient = StitchClient.getStitchClient();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [number, storeNumber] = React.useState("");
-  const [waitTime, storeWaitTime] = React.useState("");
-  const [invalidPhoneNumber, setInvalidPhoneNum] = React.useState(false);
-
-  const handleNumberChange = (e) => {
-    storeNumber(e.target.value);
-  };
+  const [suggestedFeedback, setSuggestedFeedbackValue] = React.useState("");
 
   const handleWaitTimeChangeChange = (e) => {
-    storeWaitTime(e.target.value);
+    setSuggestedFeedbackValue(e.target.value);
   };
 
   const handleOpen = () => {
@@ -87,36 +80,12 @@ export default function PhoneModal(props) {
 
   const handleClose = () => {
     setOpen(false);
-    storeNumber("");
-    storeWaitTime("");
-    setInvalidPhoneNum(false);
   };
 
-  const validatePhoneNumber = (phNum) => {
-    const isValidPhoneNumber = /^\d{10}$/;
-    if (
-      phNum.match(isValidPhoneNumber) &&
-      isValidPhoneNumber > 0 &&
-      waitTime >= 0
-    ) {
-      return true;
-    }
-    return false;
-  };
-
-  const handleSubmit = () => {
-    var phoneNumberToPassToBackend = validatePhoneNumber(number);
-    if (phoneNumberToPassToBackend) {
-      console.log("valid number");
-      stitchClient.callFunction("insertUserNumber", [
-        number,
-        props.storeId,
-        waitTime,
-      ]);
-      handleClose();
-    } else {
-      setInvalidPhoneNum(true);
-    }
+  const handleClick = () => {
+    handleClose();
+    stitchClient.callFunction("addSuggestion", [suggestedFeedback]);
+    handleClose();
   };
 
   return (
@@ -126,7 +95,7 @@ export default function PhoneModal(props) {
         onClick={handleOpen}
         variant="contained"
       >
-        Would you like text updates?
+        App feedback!
       </Button>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -142,60 +111,32 @@ export default function PhoneModal(props) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            {invalidPhoneNumber && (
-              <Typography variant="body2" className={classes.modalHeader}>
-                <Box
-                  className={classes.warningText}
-                  fontWeight="fontWeightBold"
-                  m={1}
-                >
-                  Invalid phone number
-                </Box>
-              </Typography>
-            )}
             <Typography variant="body2" className={classes.modalHeader}>
               <Box
                 className={classes.modalText}
                 fontWeight="fontWeightBold"
                 m={1}
               >
-                Send me text updates
+                Tell us how to improve out app!
               </Box>
             </Typography>
             <TextField
               className={classes.textFieldStyle}
               id="outlined-number"
-              type="tel"
-              placeholder="Phone number"
               fullWidth={true}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              variant="outlined"
-              onChange={handleNumberChange}
-              value={number}
-            />
-            <br></br>
-            <br></br>
-            <TextField
-              className={classes.textFieldStyle}
-              id="outlined-number"
-              type="number"
-              fullWidth={true}
-              placeholder="Notify me when the waittime is"
+              placeholder="Feedback"
               InputLabelProps={{
                 shrink: true,
               }}
               variant="outlined"
               onChange={handleWaitTimeChangeChange}
-              value={waitTime}
+              value={suggestedFeedback}
             />
-            <br></br>
             <Button
               className={classes.modalSubmitButton}
               variant="contained"
               endIcon={<Send />}
-              onClick={handleSubmit}
+              onClick={handleClick}
             >
               Submit
             </Button>

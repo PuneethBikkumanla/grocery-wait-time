@@ -14,6 +14,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 //in-project
 import ListOfGroceryStoresComponent from "./listOfGroceryStores";
 import StitchClient from "./stitchClient";
+import SuggestionsComponent from "./suggestions";
 
 class LocationSearchInput extends React.Component {
   constructor(props) {
@@ -284,6 +285,7 @@ class LocationSearchInput extends React.Component {
         <ListOfGroceryStoresComponent
           {...this.state}
         ></ListOfGroceryStoresComponent>
+        <SuggestionsComponent></SuggestionsComponent>
       </div>
     );
   }

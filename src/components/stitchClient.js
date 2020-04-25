@@ -7,7 +7,7 @@ export class StitchClient extends React.Component {
   static getStitchClient() {
     if (!this.client) {
       this.client = Stitch.initializeDefaultAppClient(
-        "grocery-wait-time-zhxvi"
+        process.env.REACT_APP_MONGO_DB_API_KEY
       );
       this.client.auth.loginWithCredential(new AnonymousCredential());
     }
