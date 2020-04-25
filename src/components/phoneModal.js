@@ -217,6 +217,7 @@ export default function ConfirmationDialog(props) {
       <div className={classes.root}>
         <ConfirmationDialogRaw
           stitchClient={props.stitchClient}
+          storeId={props.storeId}
           classes={{
             paper: classes.paper,
           }}

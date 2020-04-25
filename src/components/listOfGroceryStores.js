@@ -63,6 +63,7 @@ class listOfGroceryStores extends Component {
                 <PhoneModalComponent
                   storeId={store.id}
                   stitchClient={this.props.stitchClient}
+                  listOfStores={this.props.listOfStores}
                 ></PhoneModalComponent>
               </CardContent>
             </Card>

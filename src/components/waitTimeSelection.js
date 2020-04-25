@@ -148,6 +148,7 @@ export default function ConfirmationDialog(props) {
           storeId={props.storeId}
           storeName={props.storeName}
           stitchClient={props.stitchClient}
+          listOfStores={props.listOfStores}
           classes={{
             paper: classes.paper,
           }}
