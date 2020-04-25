@@ -77,10 +77,10 @@ export default function PhoneModal(props) {
 
   const handleClose = () => {
     setOpen(false);
+    setSuggestedFeedbackValue("");
   };
 
   const handleClick = () => {
-    handleClose();
     props.stitchClient.callFunction("addSuggestion", [suggestedFeedback]);
     handleClose();
   };
@@ -128,6 +128,7 @@ export default function PhoneModal(props) {
               variant="outlined"
               onChange={handleWaitTimeChangeChange}
               value={suggestedFeedback}
+              multiline={true}
             />
             <Button
               className={classes.modalSubmitButton}
