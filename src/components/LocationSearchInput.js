@@ -11,7 +11,7 @@ import { classnames } from "../helpers";
 import Switch from "@material-ui/core/Switch";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Typography from "@material-ui/core/Typography";
+import { Typography } from "@material-ui/core";
 
 //in-project
 import ListOfGroceryStoresComponent from "./listOfGroceryStores";
@@ -281,10 +281,10 @@ class LocationSearchInput extends React.Component {
                 onChange={this.handleToggleChange}
                 name="checked"
                 inputProps={{ "aria-label": "primary checkbox" }}
-                color="secondary"
+                elevation={10}
               />
             }
-            label="Search with store name?"
+            label="Toggle to search with store name"
             labelPlacement="bottom"
           />
         </FormGroup>

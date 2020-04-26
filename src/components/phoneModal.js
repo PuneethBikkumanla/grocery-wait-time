@@ -106,8 +106,15 @@ function ConfirmationDialogRaw(props) {
       aria-labelledby="confirmation-dialog-title"
       open={open}
       {...other}
+      elevation={24}
     >
-      <DialogTitle id="confirmation-dialog-title">Text updates!</DialogTitle>
+      <DialogTitle id="confirmation-dialog-title">
+        <Typography elevation={24} variant="h6">
+          <Box fontWeight="fontWeightBold" m={1}>
+            Text updates!
+          </Box>
+        </Typography>
+      </DialogTitle>
       {invalidPhoneNumber && (
         <Typography variant="body2" className={classes.modalHeader}>
           <Box
@@ -172,10 +179,15 @@ function ConfirmationDialogRaw(props) {
       />
 
       <DialogActions>
-        <Button autoFocus onClick={handleCancel} color="primary">
+        <Button
+          elevation={6}
+          autoFocus
+          onClick={handleCancel}
+          color="secondary"
+        >
           Cancel
         </Button>
-        <Button onClick={handleOk} color="primary">
+        <Button elevation={6} onClick={handleOk} color="primary">
           Submit
         </Button>
       </DialogActions>

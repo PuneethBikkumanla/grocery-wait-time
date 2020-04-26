@@ -13,6 +13,8 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
+  Typography,
+  Box,
 } from "@material-ui/core";
 
 const options = [
@@ -73,9 +75,14 @@ function ConfirmationDialogRaw(props) {
       aria-labelledby="confirmation-dialog-title"
       open={open}
       {...other}
+      elevation={24}
     >
       <DialogTitle id="confirmation-dialog-title" variant="outlined">
-        Report estimated wait time
+        <Typography elevation={24} variant="h6">
+          <Box fontWeight="fontWeightBold" m={1}>
+            Report estimated wait time
+          </Box>
+        </Typography>
       </DialogTitle>
       <DialogContent dividers>
         <RadioGroup
@@ -96,10 +103,15 @@ function ConfirmationDialogRaw(props) {
         </RadioGroup>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleCancel} color="primary">
+        <Button
+          elevation={6}
+          autoFocus
+          onClick={handleCancel}
+          color="secondary"
+        >
           Cancel
         </Button>
-        <Button onClick={handleOk} color="primary">
+        <Button elevation={6} onClick={handleOk} color="primary">
           Ok
         </Button>
       </DialogActions>

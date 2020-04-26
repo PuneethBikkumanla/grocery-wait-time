@@ -8,6 +8,8 @@ import {
   Dialog,
   TextField,
   InputAdornment,
+  Typography,
+  Box,
 } from "@material-ui/core";
 
 import DescriptionIcon from "@material-ui/icons/Description";
@@ -55,8 +57,15 @@ function ConfirmationDialogRaw(props) {
       aria-labelledby="confirmation-dialog-title"
       open={open}
       {...other}
+      elevation={24}
     >
-      <DialogTitle id="confirmation-dialog-title">App Feedback!</DialogTitle>
+      <DialogTitle id="confirmation-dialog-title">
+        <Typography elevation={24} variant="h5">
+          <Box fontWeight="fontWeightBold" m={1}>
+            App feedback
+          </Box>
+        </Typography>
+      </DialogTitle>
       <TextField
         className={classes.textFieldStyle}
         id="outlined-number"
@@ -78,10 +87,15 @@ function ConfirmationDialogRaw(props) {
       />
 
       <DialogActions>
-        <Button autoFocus onClick={handleCancel} color="primary">
+        <Button
+          autoFocus
+          elevation={6}
+          onClick={handleCancel}
+          color="secondary"
+        >
           Cancel
         </Button>
-        <Button onClick={handleOk} color="secondary">
+        <Button elevation={6} onClick={handleOk} color="primary">
           Submit
         </Button>
       </DialogActions>
@@ -119,6 +133,7 @@ export default function ConfirmationDialog(props) {
           className={classes.modalButton}
           onClick={handleClickListItem}
           variant="contained"
+          elevation={6}
         >
           App feedback!
         </Button>

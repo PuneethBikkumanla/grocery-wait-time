@@ -35,7 +35,7 @@ class listOfGroceryStores extends Component {
         <ul>
           {stores.map((store) => (
             <Paper key={store.id} elevation={24} style={rootStyle}>
-              <Typography variant="h5">
+              <Typography elevation={24} variant="h5">
                 <Box fontWeight="fontWeightBold" m={1}>
                   {store.name}
                 </Box>
@@ -84,6 +84,7 @@ var rootStyle = {
   paddingBottom: 30,
   paddingTop: 20,
   paddingLeft: 10,
+  boxShadow: "0 3px 3px white, 0 3px 3px white",
 };
 
 export default listOfGroceryStores;
