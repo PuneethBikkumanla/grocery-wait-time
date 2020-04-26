@@ -1,12 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogActions from "@material-ui/core/DialogActions";
-import Dialog from "@material-ui/core/Dialog";
-import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import {
+  makeStyles,
+  Button,
+  DialogTitle,
+  DialogActions,
+  Dialog,
+  TextField,
+  InputAdornment,
+} from "@material-ui/core";
+
 import DescriptionIcon from "@material-ui/icons/Description";
 
 function ConfirmationDialogRaw(props) {
@@ -78,7 +81,7 @@ function ConfirmationDialogRaw(props) {
         <Button autoFocus onClick={handleCancel} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleOk} color="primary">
+        <Button onClick={handleOk} color="secondary">
           Submit
         </Button>
       </DialogActions>
@@ -153,11 +156,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 20,
   },
   modalButton: {
-    top: 10,
+    marginTop: 250,
     display: "flex",
     margin: "auto",
     textTransform: "none",
-    backgroundColor: "#01aae4",
+    backgroundColor: "#2ebc8e",
     color: "white",
     borderRadius: 10,
     marginBottom: 50,

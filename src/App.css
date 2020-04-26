@@ -2,7 +2,7 @@ body,
 #root,
 .page-wrapper {
   height: 100%;
-  background-color: #19181a;
+  background-color: #040d14;
   color: white;
 }
 
@@ -15,7 +15,7 @@ body,
 ._search-bar-container {
   width: 70%;
   margin: 40px auto 0;
-  background-color: #fff3e6;
+  background-color: white;
   border-radius: 10px;
 }
 ._toggleButton {
@@ -33,7 +33,7 @@ body,
   padding: 16px;
   font-size: 16px;
   border-radius: 10px;
-  background-color: #fff3e6;
+  background-color: white;
   outline: none;
   border: 0;
 }
@@ -75,7 +75,7 @@ body,
 ._dropdown-footer {
   display: flex;
   justify-content: flex-end;
-  background-color: #fff3e6;
+  background-color: white;
   border-radius: 10px;
 }
 

@@ -310,6 +310,7 @@ var appDescriptionText = {
   justifyContent: "center",
   marginTop: 50,
   textAlign: "center",
+  color: "white",
 };
 
 export default LocationSearchInput;

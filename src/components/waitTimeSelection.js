@@ -1,17 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import Dialog from "@material-ui/core/Dialog";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import Radio from "@material-ui/core/Radio";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import {
+  Button,
+  makeStyles,
+  List,
+  ListItem,
+  ListItemText,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Dialog,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+} from "@material-ui/core";
 
 const options = [
   "None",
@@ -72,7 +74,7 @@ function ConfirmationDialogRaw(props) {
       open={open}
       {...other}
     >
-      <DialogTitle id="confirmation-dialog-title">
+      <DialogTitle id="confirmation-dialog-title" variant="outlined">
         Report estimated wait time
       </DialogTitle>
       <DialogContent dividers>
@@ -166,7 +168,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 360,
-    backgroundColor: "#fff3e6",
+    backgroundColor: "white",
   },
   paper: {
     width: "80%",
