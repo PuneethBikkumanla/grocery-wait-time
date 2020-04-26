@@ -6,16 +6,20 @@ import PlacesAutocomplete, {
   getLatLng,
 } from "react-places-autocomplete";
 //material
-import Box from "@material-ui/core/Box";
 import { classnames } from "../helpers";
-import Switch from "@material-ui/core/Switch";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { Typography } from "@material-ui/core";
+import {
+  Typography,
+  Button,
+  Switch,
+  FormGroup,
+  FormControlLabel,
+  Box,
+} from "@material-ui/core";
 
 //in-project
 import ListOfGroceryStoresComponent from "./listOfGroceryStores";
 import SuggestionsComponent from "./suggestions";
+import HowItWorksComponent from "./howItWorks";
 
 class LocationSearchInput extends React.Component {
   constructor(props) {
@@ -262,13 +266,14 @@ class LocationSearchInput extends React.Component {
     return (
       <div>
         {!this.state.listOfStores && (
-          <Typography variant="body2" style={appDescriptionText}>
+          <Typography variant="body2">
             <Box fontWeight="fontWeightBold" m={1} style={appDescriptionText}>
-              This website is for checking and reporting wait times at grocery
-              stores. Also, you can opt in to receive text message notifications
-              when the wait time of a grocery store falls below a specified
-              amount.{" "}
+              Grocery Wait Times
             </Box>
+            <Box m={1} style={description}>
+              Check and report wait times during COVID-19.
+            </Box>
+            <HowItWorksComponent></HowItWorksComponent>
           </Typography>
         )}
         {searchBar}
@@ -284,7 +289,7 @@ class LocationSearchInput extends React.Component {
                 elevation={10}
               />
             }
-            label="Toggle to search with store name"
+            label="Search with store name"
             labelPlacement="bottom"
           />
         </FormGroup>
@@ -309,6 +314,15 @@ var appDescriptionText = {
   alignItems: "center",
   justifyContent: "center",
   marginTop: 50,
+  textAlign: "center",
+  color: "white",
+  fontSize: 28,
+};
+
+var description = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   textAlign: "center",
   color: "white",
 };

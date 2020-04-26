@@ -19,7 +19,6 @@ function App() {
     stitchAppClient.auth
       .loginWithCredential(credential)
       .then((authedId) => {
-        console.log(`successfully logged in with id: ${authedId}`);
         setClient(stitchAppClient);
       })
       .catch((err) => console.error(`login failed with error: ${err}`));

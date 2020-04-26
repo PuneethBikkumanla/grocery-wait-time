@@ -62,7 +62,7 @@ function ConfirmationDialogRaw(props) {
       <DialogTitle id="confirmation-dialog-title">
         <Typography elevation={24} variant="h5">
           <Box fontWeight="fontWeightBold" m={1}>
-            App feedback
+            Give us feedback!
           </Box>
         </Typography>
       </DialogTitle>
@@ -135,7 +135,7 @@ export default function ConfirmationDialog(props) {
           variant="contained"
           elevation={6}
         >
-          App feedback!
+          Give us feedback!
         </Button>
       </div>
       <div className={classes.root}>

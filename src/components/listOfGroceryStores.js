@@ -19,9 +19,13 @@ class listOfGroceryStores extends Component {
       <ul>
         {times.map(function (timeObj) {
           return (
-            <li>
-              {timeObj.wait_time} - {reportString}
-              <Timestamp relative date={timeObj.t_stamp} />
+            <li style={listWaitTimes}>
+              <Typography variant="body2">
+                <Box fontWeight="fontWeightRegular" m={1}>
+                  {timeObj.wait_time} - {reportString}
+                  <Timestamp relative date={timeObj.t_stamp} />
+                </Box>
+              </Typography>
             </li>
           );
         })}
@@ -84,7 +88,10 @@ var rootStyle = {
   paddingBottom: 30,
   paddingTop: 20,
   paddingLeft: 10,
-  boxShadow: "0 3px 3px white, 0 3px 3px white",
+};
+
+var listWaitTimes = {
+  listStyleType: "square",
 };
 
 export default listOfGroceryStores;
