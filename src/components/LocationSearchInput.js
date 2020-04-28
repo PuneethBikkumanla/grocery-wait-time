@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
 import React from "react";
 //google
 import PlacesAutocomplete, {
@@ -9,7 +8,6 @@ import PlacesAutocomplete, {
 import { classnames } from "../helpers";
 import {
   Typography,
-  Button,
   Switch,
   FormGroup,
   FormControlLabel,
@@ -29,6 +27,8 @@ class LocationSearchInput extends React.Component {
       listOfStores: "",
       placeName: "",
       checked: false,
+      placeHolderAddress: "Enter your address...",
+      placeHolderStore: "Enter store name...",
     };
   }
 
@@ -142,69 +142,26 @@ class LocationSearchInput extends React.Component {
     return res;
   }
 
-  renderFuncWithAddress = ({
-    getInputProps,
-    suggestions,
-    getSuggestionItemProps,
-  }) => (
+  renderFunc = ({ getInputProps, suggestions, getSuggestionItemProps }) => (
     <div className="_search-bar-container">
       <div className="_search-input-container">
-        <input
-          {...getInputProps({
-            placeholder: "Enter address or zipcode...",
-            className: "_search-input",
-          })}
-        />
-        {this.state.address.length > 0 && (
-          <button className="_clear-button" onClick={this.handleCloseClick}>
-            X
-          </button>
+        {this.state.checked && (
+          <input
+            {...getInputProps({
+              placeholder: this.state.placeHolderStore,
+              className: "_search-input",
+            })}
+          />
         )}
-      </div>
-      {suggestions.length > 0 && (
-        <div className="_autocomplete-container">
-          {suggestions.map((suggestion) => {
-            const className = classnames("_suggestion-item", {
-              "_suggestion-item--active": suggestion.active,
-            });
-            return (
-              <div
-                {...getSuggestionItemProps(suggestion, {
-                  className,
-                })}
-              >
-                <strong>{suggestion.formattedSuggestion.mainText}</strong>{" "}
-                <small>{suggestion.formattedSuggestion.secondaryText}</small>
-              </div>
-            );
-          })}
-          <div className="_dropdown-footer">
-            <div>
-              <img
-                src={require("../images/powered_by_google_default.png")}
-                className="_dropdown-footer-image"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-
-  renderFuncWithStoreName = ({
-    getInputProps,
-    suggestions,
-    getSuggestionItemProps,
-  }) => (
-    <div className="_search-bar-container">
-      <div className="_search-input-container">
-        <input
-          {...getInputProps({
-            placeholder: "Enter store name...",
-            className: "_search-input",
-          })}
-        />
-        {this.state.placeName.length > 0 && (
+        {!this.state.checked && (
+          <input
+            {...getInputProps({
+              placeholder: this.state.placeHolderAddress,
+              className: "_search-input",
+            })}
+          />
+        )}
+        {this.state.address.length > 0 && (
           <button className="_clear-button" onClick={this.handleCloseClick}>
             X
           </button>
@@ -249,7 +206,7 @@ class LocationSearchInput extends React.Component {
           onChange={this.handleChangeFindPlace}
           onSelect={this.handleSelectByFindPlaceByQuery}
         >
-          {this.renderFuncWithStoreName}
+          {this.renderFunc}
         </PlacesAutocomplete>
       );
     } else {
@@ -259,7 +216,7 @@ class LocationSearchInput extends React.Component {
           onChange={this.handleChangeNearbySearch}
           onSelect={this.handleSelectByNearbySearch}
         >
-          {this.renderFuncWithAddress}
+          {this.renderFunc}
         </PlacesAutocomplete>
       );
     }
