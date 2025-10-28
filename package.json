@@ -15,7 +15,7 @@
     "react-places-autocomplete": "^7.2.1",
     "react-scripts": "3.4.1",
     "react-timestamp": "^5.1.0",
-    "validator": "^13.0.0"
+    "validator": "^13.15.20"
   },
   "scripts": {
     "start": "react-scripts start",
